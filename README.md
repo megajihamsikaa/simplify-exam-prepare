@@ -1,2 +1,0 @@
-# simplify-exam-prepare
-#done
