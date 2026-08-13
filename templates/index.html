@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF to Quiz & Flashcards</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>📄 PDF → Quiz & Flashcards</h1>
+    <p class="subtitle">Upload a PDF and get auto-generated study questions and flashcards.</p>
+
+    {% if error %}
+      <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <form action="/" method="post" enctype="multipart/form-data" class="upload-form" id="upload-form">
+      <label for="pdf-input" class="drop-zone" id="drop-zone">
+        <span id="drop-zone-text">Click to choose a PDF or drag it here</span>
+        <input type="file" name="pdf" id="pdf-input" accept="application/pdf" required>
+      </label>
+      <button type="submit" id="submit-btn">Generate Quiz & Flashcards</button>
+    </form>
+
+    <p class="hint">Works best with text-based PDFs (not scanned images).</p>
+  </div>
+
+  <script>
+    const dropZone = document.getElementById('drop-zone');
+    const input = document.getElementById('pdf-input');
+    const text = document.getElementById('drop-zone-text');
+    const form = document.getElementById('upload-form');
+    const btn = document.getElementById('submit-btn');
+
+    input.addEventListener('change', () => {
+      if (input.files.length > 0) {
+        text.textContent = input.files[0].name;
+      }
+    });
+
+    ['dragover', 'dragleave', 'drop'].forEach(evt => {
+      dropZone.addEventListener(evt, (e) => e.preventDefault());
+    });
+    dropZone.addEventListener('dragover', () => dropZone.classList.add('dragging'));
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragging'));
+    dropZone.addEventListener('drop', (e) => {
+      dropZone.classList.remove('dragging');
+      if (e.dataTransfer.files.length > 0) {
+        input.files = e.dataTransfer.files;
+        text.textContent = e.dataTransfer.files[0].name;
+      }
+    });
+
+    form.addEventListener('submit', () => {
+      btn.disabled = true;
+      btn.textContent = 'Processing...';
+    });
+  </script>
+</body>
+</html>

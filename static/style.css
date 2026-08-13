@@ -1,0 +1,232 @@
+:root {
+  --primary: #5b5fef;
+  --primary-dark: #4548c9;
+  --bg: #f4f5fb;
+  --card-bg: #ffffff;
+  --text: #23233b;
+  --muted: #6b6b85;
+  --border: #e2e2f0;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+.container {
+  width: 100%;
+  max-width: 520px;
+  background: var(--card-bg);
+  border-radius: 16px;
+  padding: 40px 32px;
+  box-shadow: 0 10px 30px rgba(20, 20, 60, 0.08);
+}
+
+.container.wide {
+  max-width: 800px;
+}
+
+h1 {
+  margin-top: 0;
+  font-size: 1.6rem;
+}
+
+.filename {
+  color: var(--primary);
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-top: -8px;
+}
+
+.error {
+  color: #d64545;
+  font-weight: 600;
+}
+
+.upload-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.drop-zone {
+  border: 2px dashed var(--border);
+  border-radius: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  cursor: pointer;
+  color: var(--muted);
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+
+.drop-zone.dragging {
+  border-color: var(--primary);
+  background: #f0f0ff;
+}
+
+.drop-zone input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+#submit-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+#submit-btn:hover { background: var(--primary-dark); }
+#submit-btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+.hint {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 16px;
+}
+
+.back-link {
+  display: inline-block;
+  margin-bottom: 12px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  padding: 10px 16px;
+  font-weight: 600;
+  color: var(--muted);
+  border-bottom: 3px solid transparent;
+}
+
+.tab-btn.active {
+  color: var(--primary);
+  border-bottom-color: var(--primary);
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+.quiz-card {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 14px;
+}
+
+.q-number {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--primary);
+  font-weight: 700;
+}
+
+.q-text {
+  margin: 0 0 12px;
+  font-weight: 500;
+}
+
+.reveal-btn {
+  background: var(--primary);
+  color: white;
+  border: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+}
+
+.q-answer {
+  margin: 10px 0 0;
+  font-weight: 600;
+  color: #2f9e44;
+}
+
+.q-answer.hidden { display: none; }
+
+.flashcard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.flashcard {
+  perspective: 1000px;
+  height: 150px;
+  cursor: pointer;
+}
+
+.flashcard-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.5s;
+  transform-style: preserve-3d;
+}
+
+.flashcard.flipped .flashcard-inner {
+  transform: rotateY(180deg);
+}
+
+.flashcard-front, .flashcard-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+  font-weight: 600;
+}
+
+.flashcard-front {
+  background: var(--primary);
+  color: white;
+}
+
+.flashcard-back {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text);
+  transform: rotateY(180deg);
+  font-weight: 400;
+  font-size: 0.9rem;
+  overflow-y: auto;
+}

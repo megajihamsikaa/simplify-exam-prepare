@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Quiz & Flashcards</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container wide">
+    <a href="/" class="back-link">&larr; Upload another PDF</a>
+    <h1>Results{% if filename %} for <span class="filename">{{ filename }}</span>{% endif %}</h1>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="quiz">📝 Quiz</button>
+      <button class="tab-btn" data-tab="flashcards">🃏 Flashcards</button>
+    </div>
+
+    <section id="quiz" class="tab-panel active">
+      {% if quiz %}
+        {% for q in quiz %}
+          <div class="quiz-card">
+            <p class="q-number">Question {{ loop.index }}</p>
+            <p class="q-text">{{ q.question }}</p>
+            <button class="reveal-btn">Show Answer</button>
+            <p class="q-answer hidden">{{ q.answer }}</p>
+          </div>
+        {% endfor %}
+      {% else %}
+        <p>No questions could be generated from this PDF.</p>
+      {% endif %}
+    </section>
+
+    <section id="flashcards" class="tab-panel">
+      <div class="flashcard-grid">
+        {% for card in flashcards %}
+          <div class="flashcard">
+            <div class="flashcard-inner">
+              <div class="flashcard-front">{{ card.front }}</div>
+              <div class="flashcard-back">{{ card.back }}</div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <p class="hint">Click a card to flip it.</p>
+    </section>
+  </div>
+
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Reveal answer
+    document.querySelectorAll('.reveal-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const answer = btn.nextElementSibling;
+        answer.classList.toggle('hidden');
+        btn.textContent = answer.classList.contains('hidden') ? 'Show Answer' : 'Hide Answer';
+      });
+    });
+
+    // Flip flashcards
+    document.querySelectorAll('.flashcard').forEach(card => {
+      card.addEventListener('click', () => card.classList.toggle('flipped'));
+    });
+  </script>
+</body>
+</html>
